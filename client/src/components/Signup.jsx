@@ -43,8 +43,8 @@ const Signup = () => {
     
   };
   return (
-    <div>
 
+<>
 <section className="bg-gradient-to-r from-[#090909] to-[#420842] dark:bg-gray-900">
   <div className="flex flex-col items-center text-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
   <img
@@ -82,7 +82,7 @@ const Signup = () => {
       </div>
   </div>
 </section>
-    </div>
+    </>
   )
 }
 

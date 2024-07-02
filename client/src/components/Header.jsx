@@ -1,27 +1,40 @@
+import { useEffect, useState } from "react";
+
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaCartPlus } from "react-icons/fa";
-import { FaUserCircle } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
-import { useEffect, useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
-import Avatar from 'react-avatar';
+import axios from 'axios';
 
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom';
+import { signoutSuccess } from '../redux/slices/userSlice';
+import { RxCross1 } from "react-icons/rx";
 import clsx from "clsx";
-import DropdownMenu from "./DropdownMenu";
+import Avatar from 'react-avatar';
+  
+
+
+
+
+
+
+
 
 
 
 const Header = () => {
+  
+const dispatch=useDispatch();
   const [st, setState] = useState(false);
   const {currUser}=useSelector((state)=>state.user )
   const [open,setOpen]=useState(false);
-  const state=useSelector((state)=>state)
+  const navigate=useNavigate();
+ 
 useEffect(()=>{
-  if(currUser)console.log('yes')
+  if(!currUser){navigate('/login');}
   
-    else console.log('no')
-},[])
-const state2=useSelector((state)=>state)
+    
+},[currUser])
+
   const list = [
     { title: "Collection" },
     { title: "men" },
@@ -32,6 +45,27 @@ const state2=useSelector((state)=>state)
   const toggleDropdown=()=>{
 setOpen(!open)
   }
+
+  const handleLogOut=async()=>{
+    try {
+     const data= await axios.post('/logout');
+     console.log(data);
+   if(data.status===200){
+     console.log("logout completed ",data);
+   dispatch(signoutSuccess());
+   navigate('/login');
+   
+   }
+   else{
+     console.log('not success ')
+   }
+    } catch (error) {
+     console.log(error);
+    }
+   
+   
+     }
+   
   return (
     <>
       <header>
@@ -89,7 +123,35 @@ setOpen(!open)
           <FaCartPlus className="text-2xl" />
           
                 
-          <DropdownMenu currUser={currUser}  />
+          <div className="relative inline-block text-left">
+      <Avatar
+        onClick={toggleDropdown}
+        className="cursor-pointer mr-3 md:mr-6"
+        round={true}
+        src={currUser?.user?.profilePicture}
+        size="40"
+      />
+      {open && (
+        <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className="py-2">
+            <p className="block px-4 py-2 text-sm text-gray-700">{currUser?.user?.name}</p>
+            
+              <Link to={`/update/${currUser?.user?._id}`}>
+              <button className="block text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+
+               Profile
+               </button></Link>
+       
+            <button
+              
+             onClick={handleLogOut} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              Log out
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
              
          
            

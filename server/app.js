@@ -16,8 +16,13 @@ const PORT= 8000;
 
 connectDB();
 const app=express();
-app.use(cors());
-
+const corsOptions = {
+    origin: '*',
+    credentials: true,
+    optionSuccessStatus: 200
+  }
+  app.use(cors(corsOptions))
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 

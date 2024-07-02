@@ -4,6 +4,7 @@ import './App.css'
 import Home from './components/Home'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import Update from './components/Update'
 
 
 
@@ -12,13 +13,15 @@ function App() {
   return (
     <>
 
-      <div>
+      <div className='overflow-x-clip '>
       
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/update/:id" element={<Update />} />
+
       </Routes>
       
        </div>

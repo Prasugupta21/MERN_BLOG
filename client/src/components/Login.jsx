@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { toast,ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   signInStart,
   signInSuccess,
@@ -17,14 +17,6 @@ const Login = () => {
   const navigate = useNavigate()
  
 
-  const handleError = (err) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-right",
-    });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,6 +33,8 @@ const Login = () => {
     if(!success){
      
         dispatch(signInFailure(message));
+        alert('Something Went Wrong');
+        console.log('user not found');
       
     }
       if (success) {
